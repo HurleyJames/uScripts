@@ -45,3 +45,124 @@ isImage() {
 		return -1
 	fi
 }
+
+# 如果图片不是PNG格式，则转化为PNG格式
+convertToPng() {
+	# 获取输入的图片的文件类型
+	imageType=$(sips -g format "$1" | awk -F: '{print $2}')
+	# 转换为字符串格式
+	typeStr="echo $imageType"
+	if [ "$typeStr" = "png" ]; then
+		echo "$1为PNG格式的图片，不需要转换"
+		# 直接拷贝即可
+		cp "$1" PngFolder/"$1"
+	else
+		echo "$1格式需要转换"
+		filename=$1
+		# 截取文件名称，截取最后一个.号之前的字符
+		filehead=${filename%.*}
+		# 转化为PNG格式的图片
+		sips -s format png "$1" --out PngFolder/"${filehead}".png
+	fi
+}
+
+# 自动生成Icon
+createIconImage() {
+	# -Z等比例按照给定的尺寸缩放最长边
+	# 先删除旧文件夹
+	rm -rf IconFolder
+	# 创建Icon文件夹
+	mkdir IconFolder
+
+	icon_image_name=$1
+	# 图片尺寸的数组
+	icon_array=(20 29 40 58 60 76 80 87 120 152 167 180 1024)
+	# 遍历
+	for item in "${icon_array[@]}";
+	do
+		sips -Z "$item" "$icon_image_name" --out IconFolder/AppIcon_"$item"x"$item".png
+	done
+}
+
+# 自动生成LaunchImage
+CreateLaunchImage() {
+	# 先删除旧文件夹
+	rm -rf LaunchImageFolder
+	# 再创建CEB文件夹
+	mkdir LaunchImageFolder
+	image_name=$1
+	# 图片高度
+	h_array=(960 1024 1136 1334 1792 2048 2208 2436 2688)
+	# 图片宽度
+	w_array=(640 768  640  750  828  1536 1242 1125 1242)
+	array_count=${#h_array[@]}
+	for ((i=0; i<"$array_count"; i++))
+	do
+		sips -z "${h_array[i]}" "${w_array[i]}" "$image_name" --out LaunchImageFolder/"LaunchImage_${h_array[i]}x${w_array[i]}.png"
+		# 个别图片需要横屏图片
+		if [ "${h_array[i]}" = 1792 ] || [ "${h_array[i]}" = 2208 ] || [ "${h_array[i]}" = 2436 ] || [ "${h_array[i]}" = 2688 ]; then
+			sips -z "${w_array[i]}" "${h_array[i]}" "$image_name" --out LaunchImageFolder/"LaunchImage_${w_array[i]}x${h_array[i]}.png"
+		fi
+	done
+}
+
+# 读取用户输入选择的函数
+readUserSelect() {
+    # 判断用户输入的选择项是否在数组选项内
+    isContain="0"
+    temp_select=$1
+    select_array=(1 2 3)
+    for item in "${select_array[@]}";
+    do
+        if [ "$item" = "$temp_select" ]; then
+            isContain="888"
+        fi
+    done
+
+    if [ "$isContain" = "888" ]; then
+        # 参数有效
+        echo "当前用户选择了：$temp_select"
+        user_select="$select_para"
+	else
+		# 参数无效
+		echo "请输入所选的正确的操作数字"
+		read -r $select_para
+		sleep 0.5
+		# 递归调用本函数
+		readUserSelect "$select_para"
+	fi
+}
+
+# 主函数
+Main() {
+	# 提示用户进行选择
+    cd "$(dirname "$0")" || exit
+    echo "~~~~~~~~~~~~~~~~~~ 输入数字操作(e.g. 输入：1) ~~~~~~~~~~~~~~~"
+	echo "~~~~~~~~~ 1 一键生成AppIcon(图片名称需为AppIcon)      ~~~~~~~~"
+	echo "~~~~~~~~~ 2 一键生成App启动图(图片名称需为LaunchImage) ~~~~~~~~"
+	echo "~~~~~~~~~ 3 一键将所有图片转化为PNG格式                ~~~~~~~~"
+
+    # 读取用户的选择
+	readUserSelect "$user_select"
+	# 选择的方法
+	method="$user_select"
+	if [ -n "$method" ]; then
+		if [ "$method" = "1" ]; then
+			isFileExist "$icon_image_name"
+			createIconImage "$image_name"
+		elif [ "$method" = "2" ]; then
+			isFileExist "$launch_image_name"
+			CreateLaunchImage "$image_name"
+		elif [ "$method" = "3" ]; then
+			convertToPng
+		else
+			echo "参数输入无效"
+		fi
+	fi
+}
+
+cd "$(dirname "$0")" || exit 0
+
+if [ -z "$1" ]; then
+	Main
+fi
