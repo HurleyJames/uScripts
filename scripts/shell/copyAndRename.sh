@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 要复制的文件名
-cpFileName=seg-900-v1-a1.ts
+cp FileName=seg-900-v1-a1.ts
 # 复制的起始文件名的index
 firstNum=901
 # 复制的最终文件名的index
