@@ -8,7 +8,7 @@ is_command() {
 
 # macOS
 if [ "$system_type" = "Darwin" ]; then
-	# install zsh
+	# install zsh·
 	if ! is_command zsh; then
 		echo "Installing zsh..."
 		brew install zsh

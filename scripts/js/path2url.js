@@ -4,4 +4,4 @@
 //node.js
 var fileUrl = require('file-url');
 
-console.log(fileUrl('/Users/hurley/Downloads/PRED-133.m3u8'))
+console.log(fileUrl('/Users/hurley/Downloads/BF-622.m3u8'))
