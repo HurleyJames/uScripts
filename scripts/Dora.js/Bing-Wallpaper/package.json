@@ -1,0 +1,31 @@
+{
+  "name": "dorajs-bing-wallpaper",
+  "displayName": "Bing-Wallpaper",
+  "version": "1.0.0",
+  "uuid": "9f450166-2721-4ff9-89e7-8490a5088da0",
+  "description": "${description}",
+  "icon": "/assets/icon.png",
+  "prefs": "assets/prefs.json",
+  "main": "main.js",
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Hurley"
+  },
+  "engineStrick": true,
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "updates": "",
+  "contributes": {
+    "search": null
+  },
+  "homepage": "",
+  "engines": {
+    "dora": ">=1.8.1"
+  },
+  "keywords": [
+    "Dora.js"
+  ],
+  "dependencies": {}
+}
