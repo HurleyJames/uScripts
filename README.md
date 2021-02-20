@@ -19,7 +19,7 @@ Useful Scripts, involved Python, Shell etc.
 
 ### docx2tex
 
-将 docx 文件转为为 tex 文件。具体执行方式请参考该仓库：[docx2tex](https://github.com/transpect/docx2tex)
+将 docx 文件转为为 tex 文件。具体执行方式请参考该仓库：[docx2tex](https://github.com/transpect/docx2tex)。
 
 
 ## scripts
