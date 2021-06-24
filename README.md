@@ -1,8 +1,8 @@
 <div align="center">
     <img src="./assets/uScript.png">
     <br>
-    <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/HurleyJames/uScripts?style=plastic">&nbsp;
-    <img alt="GitHub" src="https://img.shields.io/github/license/HurleyJames/uScripts?style=plastic">
+    <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/HurleyWong/uScripts?style=plastic">&nbsp;
+    <img alt="GitHub" src="https://img.shields.io/github/license/HurleyWong/uScripts?style=plastic">
 </div>
 
 
